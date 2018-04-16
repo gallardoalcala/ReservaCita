@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/html/init.jsp" %>
+<link href="<%=request.getContextPath()%>/css/responsive-calendar.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet" />
+
+<script src="<%=request.getContextPath()%>/js/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/responsive-calendar.js"></script>
+<portlet:defineObjects />
+<liferay-theme:defineObjects />
+
+<style>	
+
+.container{
+    width: 30% !important;
+    display: inline-flex;
+}
+
+</style>
+<%
+	//Recogemos la fecha actual
+	Date fechaActual = new Date();
+	SimpleDateFormat ddT = new SimpleDateFormat("dd");
+	String dayT = ddT.format(fechaActual);
+	SimpleDateFormat mmT = new SimpleDateFormat("MM");
+	String monthT = mmT.format(fechaActual);
+	SimpleDateFormat yyT = new SimpleDateFormat("yyyy");
+	String yearT = yyT.format(fechaActual);
+	String fechaHoy = yearT+"-"+monthT+"-"+dayT;
+
+
+%>
+
+<portlet:actionURL var="verDiaAgendaURL" windowState="normal" name="verDiaAgenda">
+</portlet:actionURL>
+
+<aui:form action="<%=verDiaAgendaURL%>" id="verDiaAgendaForm" name="verDiaAgendaForm"  method="POST">
+	<aui:input id="mesSelect" name="mesSelect" type="hidden" ></aui:input>
+	<aui:input id="anioSelect" name="anioSelect" type="hidden" ></aui:input>
+	<aui:input id="daySelect" name="daySelect" type="hidden" ></aui:input>
+</aui:form>
+
+
+</br></br>
+<div class="container">
+      <!-- Responsive calendar - START -->
+    	<div class="responsive-calendar">
+        <div class="controls">
+            <a class="pull-left" data-go="prev"><div class="btn btn-primary"><<</div></a>
+            <h4><span data-head-month></span>  <span data-head-year></span></h4>
+            <a class="pull-right" data-go="next"><div class="btn btn-primary">>></div></a>
+        </div><hr/>
+        <div class="day-headers">
+          <div class="day header">Lun</div>
+          <div class="day header">Mar</div>
+          <div class="day header">Mie</div>
+          <div class="day header">Jue</div>
+          <div class="day header">Vie</div>
+          <div class="day header">Sab</div>
+          <div class="day header">Dom</div>
+        </div>
+        <div class="days" data-group="days">
+          
+        </div>
+      </div>
+      <!-- Responsive calendar - END -->
+    </div>   
+    
+<script type="text/javascript">
+  $(document).ready(function () {	  	  
+    $(".responsive-calendar").responsiveCalendar({
+      time: '<%= yearT %>-<%= monthT %>',
+      events: {
+    	"<%=fechaHoy%>" : {"url": "#"},
+        "2013-04-26": {"number": 1, "url": "http://w3widgets.com"}, 
+        "2013-05-03":{"number": 1}, 
+        "2013-06-12": {}
+       },
+       onDayClick: function() {
+			var fechaSelect = $(this).data('year')+"-"+$(this).data('month') +"-"+$(this).data('day');
+			document.getElementById("<portlet:namespace />daySelect").value = $(this).data('day');	
+			document.getElementById("<portlet:namespace />mesSelect").value = $(this).data('month');	
+			document.getElementById("<portlet:namespace />anioSelect").value = $(this).data('year');	
+			document.getElementById('<portlet:namespace />verDiaAgendaForm').submit();
+    	},
+    });
+  });  
+</script>  

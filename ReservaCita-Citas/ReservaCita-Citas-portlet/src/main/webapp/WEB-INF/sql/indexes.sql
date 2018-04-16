@@ -1,0 +1,1 @@
+create index IX_9B32216F on RES_CITA (ID_CITA);

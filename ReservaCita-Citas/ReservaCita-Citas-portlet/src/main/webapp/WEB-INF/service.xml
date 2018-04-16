@@ -1,0 +1,20 @@
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+
+<service-builder package-path="com.proyecto.citas">
+	<namespace>reservacitacitas</namespace>
+	<entity name="Cita" local-service="true" remote-service="false" table="RES_CITA">
+
+		<!-- PKs -->
+
+		<column name="idCita" type="int" primary="true" id-type="increment" db-name="ID_CITA"/>
+
+		<!-- Other Columns -->
+		<column type="int" db-name="ID_CLIENTE" name="idCliente"/>
+		<column type="Date" db-name="F_FECHA" name="fechaCita"/>
+		<column type="String" db-name="T_DESCRIPCION" name="descripcion"/>
+		<!-- Finders -->
+		<finder name="idCita" return-type="Collection">
+            <finder-column name="idCita"></finder-column>
+        </finder>
+	</entity>
+</service-builder>
