@@ -28,8 +28,9 @@ Nuestros portlets son:
 - ReservaCita-Clientes
 - ReservaCita-Citas
 
-Para el despliegue de cada aplicación es necesario descargarlas como un proyecto maven y compilar.
-
+Para el despliegue de cada portlet es necesario importarlos previamente como un proyecto maven, compilarlo e instalarlo en nuestro portal liferay.
+Puedes seguir la siguiente guía para el despliegue e instalación de un portlet:
+https://github.com/gallardoalcala/ReservaCita/blob/master/Despliegue%20de%20un%20portlet.pdf
 
 ## Desarrollo
 
