@@ -1,0 +1,396 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.proyecto.citas.beans.CitaBean"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="com.proyecto.citas.service.CitaLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.Cita"%>
+<%@page import="com.liferay.portal.model.User" %>
+<%@page import="com.liferay.portal.service.UserLocalServiceUtil" %>
+<%@page import="com.liferay.portal.util.PortalUtil"%>
+
+<%@page import="com.proyecto.citas.service.DiaLibreLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiaLibre"%>
+<%@page import="com.proyecto.citas.service.DiasLibresLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiasLibres"%>
+<%@page import="com.proyecto.citas.service.HorarioTrabajoLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.HorarioTrabajo"%>
+<%@page import="com.proyecto.citas.service.DiaFestivoLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiaFestivo"%>
+
+<%@ include file="/html/init.jsp" %>
+<link href="<%=request.getContextPath()%>/css/responsive-calendar.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet" />
+
+<script src="<%=request.getContextPath()%>/js/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/responsive-calendar.js"></script>
+
+<style>	
+
+.principal{
+	display: inline-flex;
+	width: 100%;
+}
+
+.containerCalendar{
+    width: 30% !important;
+    height: 100%;
+    border: 1px solid lightgray;
+    padding: 1%;
+    margin-left: 1%!important;
+    box-shadow: 2px 2px 7px 0px grey;
+}
+
+.fechaMostrar{
+	width: 100%;
+    border: 1px solid lightgray;
+    padding: 1%;
+    margin-left: 2%!important;
+    margin-right: 1%!important;
+    box-shadow: 2px 2px 7px 0px grey;
+    text-align: center;
+}
+
+.horasDisponibles{
+	margin-top: 1%;
+}
+
+.btnHora{
+	width: 15%;
+	margin: 1% !important;
+}
+
+.btnHora:hover{
+     box-shadow: 3px 3px 7px 0px grey;
+}
+
+	.day.festivo.today > a {
+	    border: 2px solid blue !important;
+	}
+	
+	.day.festivo {
+	    background-color: red !important;
+	    color: white;
+	    border: 0.5px solid white;
+	}
+	.day.festivo > a {
+	    background-color: red !important;
+	    color: white;
+	}
+	
+	.day.diaLibre{
+		background-color: grey;
+	}
+</style>
+<%
+	ThemeDisplay theme = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+	User user = theme.getUser();
+
+	String dayParam = ParamUtil.get(request, "daySelect", "NADA");
+	String monthParam = ParamUtil.get(request, "mesSelect", "NADA");
+	String yearParam = ParamUtil.get(request, "anioSelect", "NADA");
+	String hourParam = ParamUtil.get(request, "horaCita", "NADA");
+	
+	SimpleDateFormat formatDay = new SimpleDateFormat("dd");	
+	SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
+	SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
+	SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat formatDateLinea = new SimpleDateFormat("yyyy-MM-dd");
+	String dayT, monthT, yearT, fechaString = "";
+	Date fechaFinal = null;	
+	Date fechaActual = new Date();
+	
+	//Creamos un Calendar con la fecha actual
+	Calendar calendarActual= Calendar.getInstance();
+	calendarActual.setTime(fechaActual);
+	int dayActual = calendarActual.get(Calendar.DAY_OF_MONTH);
+	int monthActual = calendarActual.get(Calendar.MONTH);
+	int yearActual = calendarActual.get(Calendar.YEAR);	
+	int hourActual = calendarActual.get(Calendar.HOUR_OF_DAY);
+	
+	if(dayParam.equals("NADA") || monthParam.equals("NADA") || yearParam.equals("NADA") ){	
+		//si los parametros están vacios recogemos la fecha actual				
+		dayT = formatDay.format(fechaActual);
+		monthT = formatMonth.format(fechaActual);
+		yearT = formatYear.format(fechaActual);	
+		fechaFinal = formatDate.parse(dayT+"/"+monthT+"/"+yearT);	
+	}else{	
+		//Declaramos la fecha a mostrar recogida en los parámetros	
+		fechaFinal = formatDate.parse(dayParam+"/"+monthParam+"/"+yearParam);
+		dayT = formatDay.format(fechaFinal);
+		monthT = formatMonth.format(fechaFinal);
+		yearT = formatYear.format(fechaFinal);		
+	}
+	
+	String fechaHoy = yearT+"-"+monthT+"-"+dayT; //fecha para el calendario
+	fechaString = dayT+"/"+monthT+"/"+yearT;
+	
+	//Creamos un Calendar con la fecha seleccionada a mostrar (fecha final)
+	Calendar calendarParam = Calendar.getInstance();
+	calendarParam.setTime(fechaFinal);
+	//Array con los meses
+	String[] strMonths = new String[]{
+		"Enero",
+		"Febebro",
+		"Marzo",
+		"Abril",
+		"Mayo",
+		"Junio",
+		"Julio",
+		"Agosto",
+		"Septiembre",
+		"Octubre",
+		"Noviembre",
+		"Diciembre"};
+	int year = calendarParam.get(Calendar.YEAR);
+	int month = calendarParam.get(Calendar.MONTH);
+	int day = calendarParam.get(Calendar.DAY_OF_MONTH);
+	
+	//Recorremos una lista con todas las citas
+	List<Cita> listCitas = CitaLocalServiceUtil.getCitas(0, CitaLocalServiceUtil.getCitasCount());
+	//Creamos una lista de Beans de Citas
+	List<CitaBean> citasMostrar = new ArrayList<CitaBean>();			
+	for(Cita cita : listCitas){	
+		Calendar calList = Calendar.getInstance();
+		calList.setTime(cita.getFechaCita());
+		int yearList = calList.get(Calendar.YEAR);
+		int monthList = calList.get(Calendar.MONTH);
+		int dayList = calList.get(Calendar.DAY_OF_MONTH);
+		int hourList = calList.get(Calendar.HOUR_OF_DAY);
+		int minutesList = calList.get(Calendar.MINUTE);
+		
+		//Creamos el bean de Cita si coincide con la fecha recibida por parametros (fecha Final)
+		if(year == yearList){
+			if(month==monthList){
+				if(day==dayList){
+					citasMostrar.add(new CitaBean(cita.getIdCita(), cita.getIdCliente(), cita.getDescripcion(), dayList, monthList, yearList, hourList, minutesList));
+				}	
+			}	
+		}	
+	}	
+	//Comprobamos si el usuario ya tiene una cita reservada posterior a la hora actual
+	boolean userConCita = false;
+	Date fechaCliente = null;
+	int idCitaPendiente = 0;
+	for(Cita cita : listCitas){	
+		if(cita.getIdCliente()==user.getUserId()){
+			Calendar calList = Calendar.getInstance();
+			calList.setTime(cita.getFechaCita());
+			if(calList.after(calendarActual)){
+				userConCita = true;
+				fechaCliente = cita.getFechaCita();
+				idCitaPendiente = cita.getIdCita();
+			}
+		}
+	}
+	
+	String linea = "";	
+	List<DiaFestivo> listaFestivos = DiaFestivoLocalServiceUtil.getDiaFestivos(0, DiaFestivoLocalServiceUtil.getDiaFestivosCount());
+	for(DiaFestivo festivo : listaFestivos){
+		Date fechaFestivo = festivo.getFechaFestivo();
+		linea = linea +  ",\""+formatDateLinea.format(fechaFestivo)+"\": {\"class\": \"festivo\"}";				
+	}	
+	List<DiaLibre> listaLibres = DiaLibreLocalServiceUtil.getDiaLibres(0, DiaLibreLocalServiceUtil.getDiaLibresCount());
+	String diasLibres = "$(this).parent().hasClass(\"festivo\")"; 
+	String claseDiaLibre = "";
+	for(DiaLibre libre : listaLibres){
+		if(libre.getLibre()==1){
+			diasLibres = diasLibres +" || $(this).parent().hasClass(\""+libre.getCodigoDia()+"\")";
+			claseDiaLibre = claseDiaLibre + " $(this).parent().hasClass(\""+libre.getCodigoDia()+"\").addClass(\"diaLibre\"); ";
+		}
+	}
+	
+	HorarioTrabajo horarioTrabajo = HorarioTrabajoLocalServiceUtil.getHorarioTrabajo(1);	
+		
+	if(userConCita){
+		Calendar calUser = Calendar.getInstance();
+		calUser.setTime(fechaCliente);
+%>
+	<portlet:actionURL var="cancelCitaURL" windowState="normal" name="cancelCita"></portlet:actionURL>
+	<div class="divCancel" style="text-align: center;">
+		<h3>Tienes una cita asignada para el <b style="color: black;"><%= calUser.get(Calendar.DAY_OF_MONTH) %> de <%=strMonths[calUser.get(Calendar.MONTH)]%> de <%= calUser.get(Calendar.YEAR) %></b></h3>
+		<h4>A las <b style="color: red;"><%= calUser.get(Calendar.HOUR_OF_DAY)%>:00</b> h.</h4>
+		<h4>¿Deseas cancelarla y reservar una nueva cita?</h4>
+		<aui:form action="<%= cancelCitaURL %>">
+			<aui:input id="citaCancel" name="idCitaPendiente" type="hidden" value="<%= idCitaPendiente %>"></aui:input>
+			<aui:button type="submit" value="Cancelar Cita"></aui:button> 
+		</aui:form>
+		
+<%-- 		<a href="<%= PortalUtil.getPortalURL(request) %>/c/portal/logout">Salir</a> --%>
+	</div>
+<%
+	}else{
+%>
+	<portlet:actionURL var="verAgendaURL" windowState="normal" name="verAgenda">
+	</portlet:actionURL>
+	
+	<aui:form action="<%=verAgendaURL%>" id="verAgendaForm" name="verAgendaForm"  method="POST">
+		<aui:input id="mesSelect" name="mesSelect" type="hidden" ></aui:input>
+		<aui:input id="anioSelect" name="anioSelect" type="hidden" ></aui:input>
+		<aui:input id="daySelect" name="daySelect" type="hidden" ></aui:input>
+	</aui:form>
+	<div class="principal">
+		<div class="containerCalendar">
+		      <!-- Responsive calendar - START -->
+		    	<div class="responsive-calendar">
+		        <div class="controls">
+		            <a class="pull-left" data-go="prev"><div class="btn btn-primary"><<</div></a>
+		            <h4><span data-head-month></span>  <span data-head-year></span></h4>
+		            <a class="pull-right" data-go="next"><div class="btn btn-primary">>></div></a>
+		        </div><hr/>
+		        <div class="day-headers">
+		          <div class="day header">Lun</div>
+		          <div class="day header">Mar</div>
+		          <div class="day header">Mie</div>
+		          <div class="day header">Jue</div>
+		          <div class="day header">Vie</div>
+		          <div class="day header">Sab</div>
+		          <div class="day header">Dom</div>
+		        </div>
+		        <div class="days" data-group="days">
+		          
+		        </div>
+		      </div>
+		      <!-- Responsive calendar - END -->
+		</div>   
+		<%
+		//Mostramos la vista de formulario si tenemos una hora seleccionada
+			if(!hourParam.equals("NADA")){
+		%>
+				<div class="fechaMostrar">
+					<portlet:actionURL var="createCitaURL" windowState="normal" name="createCita">
+					</portlet:actionURL>
+				
+					<aui:form action="<%=createCitaURL%>" id="createCitaForm" name="createCitaForm"  method="POST">
+						<aui:input id="fechaCita" name="fechaCita" type="hidden" value="<%=fechaString%>"></aui:input>
+						<aui:input id="horaCita" name="horaCita" type="hidden" value="<%= hourParam %>"></aui:input>
+						<aui:input id="userId" name="userId" type="hidden" value="<%= user.getUserId() %>"></aui:input>
+	
+						<h3>Confirmar Reserva de Cita</h3>
+						<h5><%= user.getFirstName() %> <%= user.getLastName() %>  -  <b style="color: black;"><%= user.getEmailAddress() %></b></h5>
+						<h4>Ha seleccionado una cita para el <b style="color: black;"><%= dayT %> de <%=strMonths[calendarParam.get(Calendar.MONTH)]%> de <%= yearT %></b></h4>
+						<h4>A las <b style="color: red;"><%= hourParam%>:00</b> h.</h4>
+						<div id="nota" style="text-align: left; margin-left: 250px;">
+							<aui:input type="textarea" style="width: 350px; height: 100px;" label="Nota:" name="descripcionCita" id="nota" rows="3" placeholder="Si quieres, incluye aquí un mensaje para que se envíe con ésta cita"/>
+						</div>
+						<div class="button-holder">		
+							<aui:button type="submit" name="createCita" id="createCita" value="Reservar Cita"></aui:button>	
+							<aui:button type="cancel" value="Cancelar" onClick="javascript:history.back()"/> 
+						</div>
+					</aui:form>	
+				</div>
+		<%
+			}else{
+			//Mostramos las citas disponibles	
+		%>    
+		<div class="fechaMostrar">				
+			<%		
+				//Controlamos si se ha completado el total de citas en un dia
+				Calendar yesterday = Calendar.getInstance(); 
+				yesterday.setTime(fechaActual); 
+				yesterday.add(Calendar.DATE, -1);
+				if(citasMostrar.size() < 7 && yesterday.before(calendarParam)){
+			%>
+				<h4 class="titleAgenda">Citas disponibles para el día <%=dayT %>/<%=monthT %>/<%=yearT %></h4>
+				<br><br>
+				<div class="horasDisponibles">
+				
+				<portlet:actionURL var="reservarCitaURL" windowState="normal" name="reservarCita">
+				</portlet:actionURL>
+				<aui:form action="<%=reservarCitaURL%>" id="reservarCitaForm" name="reservarCitaForm"  method="POST">
+					<aui:input id="mesSelectReserva" name="mesSelect" type="hidden" ></aui:input>
+					<aui:input id="anioSelectReserva" name="anioSelect" type="hidden" ></aui:input>
+					<aui:input id="daySelectReserva" name="daySelect" type="hidden" ></aui:input>
+					<aui:input id="horaCita" name="horaCita" type="hidden" ></aui:input>
+				</aui:form>
+			<%	
+					//Recorremos las horas de trabajo y mostramos las citas disponibles
+					for(int i=9; i<20; i++){
+						boolean today = false;
+						if(i<14 || i >=17){	
+							//Comprobamos que la lista no esté vacía
+							if(citasMostrar.isEmpty()){
+								//Comprobamos que la fecha recibida por parametros sea mayor o igual a la actual
+								if(fechaActual.compareTo(fechaFinal) > 0) {
+									//Comprobamos que no se muestren las horas disponibles que hayan pasado
+									if(hourActual<i){
+								%>
+									<button class="btn btn-primary btnHora" onclick="reservarHora('<%= String.valueOf(i) %>')"><%= i %>:00</button>
+								<%
+									}
+								}else{
+								%>
+									<button class="btn btn-primary btnHora" onclick="reservarHora('<%= String.valueOf(i) %>')"><%= i %>:00</button>
+								<%	
+								}
+							}else{
+								int hora = i;
+								//Solo mostramos las citas que no se encuentren reservadas
+								for(CitaBean bean : citasMostrar){	
+									if(bean.getHora() == i){
+										hora = 0;
+									}
+									//Comprobamos que la fecha recibida por parametros sea mayor o igual a la actual
+									if(fechaActual.compareTo(fechaFinal) > 0) {
+										if(hourActual<i){
+											hora = 0;
+										}
+									}
+								}	
+								if(hora != 0){							
+									%>	
+										<button class="btn btn-primary btnHora" onclick="reservarHora('<%= String.valueOf(hora) %>')"><%= hora %>:00</button>
+									<%					
+								}
+							}							
+						}
+					}
+			%>
+				</div>
+			<%
+				}else{
+			%>
+				<h4 class="titleAgenda">No hay citas dísponibles para éste día. Selecciona otro día en el calendario.</h4>
+			<%	
+				}
+			%>
+		</div>
+	<%
+		}
+	%>
+	</div>
+<%
+	}
+%>
+
+<script type="text/javascript">
+	$(document).ready(function () {	  	
+	  $(".responsive-calendar").responsiveCalendar({
+	    time: '<%= yearT %>-<%= monthT %>',
+	    events: {
+	  	"<%=fechaHoy%>" : {"url": "#"},
+	  	'2013-05-04': {"number": 1, "url": "http://w3widgets.com"}, 
+	      "2018-05-15":{"class": "festivo"}, 
+	      "2013-06-12": {}
+	     },
+	     onDayClick: function() {
+			if(!$(this).parent().hasClass("festivo")){
+				//Rellenamos los campos del formulario y enviamos para mostrar la agenda segun el dia selecionado en el calendario
+				var fechaSelect = $(this).data('year')+"-"+$(this).data('month') +"-"+$(this).data('day');
+				document.getElementById("<portlet:namespace />daySelect").value = $(this).data('day');	
+				document.getElementById("<portlet:namespace />mesSelect").value = $(this).data('month');	
+				document.getElementById("<portlet:namespace />anioSelect").value = $(this).data('year');	
+				document.getElementById('<portlet:namespace />verAgendaForm').submit();
+			}
+	  	},
+	  });
+	});  
+  
+  function reservarHora(hora) { 
+  	document.getElementById("<portlet:namespace />daySelectReserva").value = <%= dayT %>;	
+	document.getElementById("<portlet:namespace />mesSelectReserva").value = <%= monthT %>;	
+	document.getElementById("<portlet:namespace />anioSelectReserva").value = <%= yearT %>;
+	document.getElementById("<portlet:namespace />horaCita").value = hora;
+	document.getElementById('<portlet:namespace />reservarCitaForm').submit();
+  }
+</script>  
