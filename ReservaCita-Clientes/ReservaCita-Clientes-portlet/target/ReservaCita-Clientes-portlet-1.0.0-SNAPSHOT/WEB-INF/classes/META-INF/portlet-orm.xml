@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.proyecto.clientes.model.impl.CitaModelImpl">
+		<attributes>
+			<id name="idCita">
+				<column name="ID_CITA" />
+			</id>
+			<basic name="idCliente">
+				<column name="ID_CLIENTE" />
+			</basic>
+			<basic name="fechaCita">
+				<column name="F_FECHA" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="descripcion">
+				<column name="T_DESCRIPCION" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.proyecto.clientes.model.impl.ClienteModelImpl">
+		<attributes>
+			<id name="idCliente">
+				<column name="ID_CLIENTE" />
+			</id>
+			<basic name="activado">
+				<column name="B_ACTIVADO" />
+			</basic>
+			<basic name="denegado">
+				<column name="B_DENEGADO" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.proyecto.clientes.model.impl.CitaImpl" name="Cita">
+		<table name="RES_CITA" />
+		<attributes />
+	</entity>
+	<entity class="com.proyecto.clientes.model.impl.ClienteImpl" name="Cliente">
+		<table name="RES_CLIENTE" />
+		<attributes />
+	</entity>
+</entity-mappings>

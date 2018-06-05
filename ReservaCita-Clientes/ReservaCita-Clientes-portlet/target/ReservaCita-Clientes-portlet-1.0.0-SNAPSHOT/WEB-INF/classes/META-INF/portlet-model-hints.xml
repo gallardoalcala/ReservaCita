@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.proyecto.clientes.model.Cita">
+		<field name="idCita" type="int" />
+		<field name="idCliente" type="int" />
+		<field name="fechaCita" type="Date" />
+		<field name="descripcion" type="String" />
+	</model>
+	<model name="com.proyecto.clientes.model.Cliente">
+		<field name="idCliente" type="long" />
+		<field name="activado" type="int" />
+		<field name="denegado" type="int" />
+	</model>
+</model-hints>

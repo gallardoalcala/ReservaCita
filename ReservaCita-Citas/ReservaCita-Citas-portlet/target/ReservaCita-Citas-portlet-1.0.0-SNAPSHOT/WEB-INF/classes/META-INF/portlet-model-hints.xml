@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.proyecto.citas.model.Cita">
+		<field name="idCita" type="int" />
+		<field name="idCliente" type="int" />
+		<field name="fechaCita" type="Date" />
+		<field name="descripcion" type="String" />
+	</model>
+	<model name="com.proyecto.citas.model.DiaFestivo">
+		<field name="idFestivo" type="int" />
+		<field name="fechaFestivo" type="Date" />
+	</model>
+	<model name="com.proyecto.citas.model.DiaLibre">
+		<field name="idLibre" type="int" />
+		<field name="dia" type="String" />
+		<field name="libre" type="int" />
+		<field name="codigoDia" type="String" />
+	</model>
+	<model name="com.proyecto.citas.model.HorarioTrabajo">
+		<field name="idHorario" type="int" />
+		<field name="horaInicio" type="String" />
+		<field name="horaFin" type="String" />
+		<field name="horaInicioTarde" type="String" />
+		<field name="horaFinTarde" type="String" />
+		<field name="duracionCitas" type="int" />
+	</model>
+</model-hints>

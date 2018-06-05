@@ -1,0 +1,149 @@
+package com.proyecto.citas.service.persistence;
+
+import com.liferay.portal.service.persistence.BasePersistence;
+
+import com.proyecto.citas.model.HorarioTrabajo;
+
+/**
+ * The persistence interface for the horario trabajo service.
+ *
+ * <p>
+ * Caching information and settings can be found in <code>portal.properties</code>
+ * </p>
+ *
+ * @author Brian Wing Shun Chan
+ * @see HorarioTrabajoPersistenceImpl
+ * @see HorarioTrabajoUtil
+ * @generated
+ */
+public interface HorarioTrabajoPersistence extends BasePersistence<HorarioTrabajo> {
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never modify or reference this interface directly. Always use {@link HorarioTrabajoUtil} to access the horario trabajo persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
+     */
+
+    /**
+    * Caches the horario trabajo in the entity cache if it is enabled.
+    *
+    * @param horarioTrabajo the horario trabajo
+    */
+    public void cacheResult(
+        com.proyecto.citas.model.HorarioTrabajo horarioTrabajo);
+
+    /**
+    * Caches the horario trabajos in the entity cache if it is enabled.
+    *
+    * @param horarioTrabajos the horario trabajos
+    */
+    public void cacheResult(
+        java.util.List<com.proyecto.citas.model.HorarioTrabajo> horarioTrabajos);
+
+    /**
+    * Creates a new horario trabajo with the primary key. Does not add the horario trabajo to the database.
+    *
+    * @param idHorario the primary key for the new horario trabajo
+    * @return the new horario trabajo
+    */
+    public com.proyecto.citas.model.HorarioTrabajo create(int idHorario);
+
+    /**
+    * Removes the horario trabajo with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param idHorario the primary key of the horario trabajo
+    * @return the horario trabajo that was removed
+    * @throws com.proyecto.citas.NoSuchHorarioTrabajoException if a horario trabajo with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.proyecto.citas.model.HorarioTrabajo remove(int idHorario)
+        throws com.liferay.portal.kernel.exception.SystemException,
+            com.proyecto.citas.NoSuchHorarioTrabajoException;
+
+    public com.proyecto.citas.model.HorarioTrabajo updateImpl(
+        com.proyecto.citas.model.HorarioTrabajo horarioTrabajo)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the horario trabajo with the primary key or throws a {@link com.proyecto.citas.NoSuchHorarioTrabajoException} if it could not be found.
+    *
+    * @param idHorario the primary key of the horario trabajo
+    * @return the horario trabajo
+    * @throws com.proyecto.citas.NoSuchHorarioTrabajoException if a horario trabajo with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.proyecto.citas.model.HorarioTrabajo findByPrimaryKey(
+        int idHorario)
+        throws com.liferay.portal.kernel.exception.SystemException,
+            com.proyecto.citas.NoSuchHorarioTrabajoException;
+
+    /**
+    * Returns the horario trabajo with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param idHorario the primary key of the horario trabajo
+    * @return the horario trabajo, or <code>null</code> if a horario trabajo with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.proyecto.citas.model.HorarioTrabajo fetchByPrimaryKey(
+        int idHorario)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns all the horario trabajos.
+    *
+    * @return the horario trabajos
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.proyecto.citas.model.HorarioTrabajo> findAll()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns a range of all the horario trabajos.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.proyecto.citas.model.impl.HorarioTrabajoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of horario trabajos
+    * @param end the upper bound of the range of horario trabajos (not inclusive)
+    * @return the range of horario trabajos
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.proyecto.citas.model.HorarioTrabajo> findAll(
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns an ordered range of all the horario trabajos.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.proyecto.citas.model.impl.HorarioTrabajoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of horario trabajos
+    * @param end the upper bound of the range of horario trabajos (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of horario trabajos
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.proyecto.citas.model.HorarioTrabajo> findAll(
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes all the horario trabajos from the database.
+    *
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeAll()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of horario trabajos.
+    *
+    * @return the number of horario trabajos
+    * @throws SystemException if a system exception occurred
+    */
+    public int countAll()
+        throws com.liferay.portal.kernel.exception.SystemException;
+}
