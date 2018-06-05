@@ -3,6 +3,9 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="com.proyecto.citas.model.Cita" />
+	<import class="com.proyecto.citas.model.DiaFestivo" />
+	<import class="com.proyecto.citas.model.DiaLibre" />
+	<import class="com.proyecto.citas.model.HorarioTrabajo" />
 	<class name="com.proyecto.citas.model.impl.CitaImpl" table="RES_CITA">
 		<cache usage="read-write" />
 		<id name="idCita" column="ID_CITA" type="int">
@@ -11,5 +14,32 @@
 		<property name="idCliente" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="ID_CLIENTE" />
 		<property name="fechaCita" type="org.hibernate.type.TimestampType" column="F_FECHA" />
 		<property name="descripcion" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_DESCRIPCION" />
+	</class>
+	<class name="com.proyecto.citas.model.impl.DiaFestivoImpl" table="RES_DIA_FESTIVO">
+		<cache usage="read-write" />
+		<id name="idFestivo" column="ID_FESTIVO" type="int">
+			<generator class="increment" />
+		</id>
+		<property name="fechaFestivo" type="org.hibernate.type.TimestampType" column="F_FECHA_FFESTIVO" />
+	</class>
+	<class name="com.proyecto.citas.model.impl.DiaLibreImpl" table="RES_DIA_LIBRE">
+		<cache usage="read-write" />
+		<id name="idLibre" column="ID_LIBRE" type="int">
+			<generator class="increment" />
+		</id>
+		<property name="dia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_DIA" />
+		<property name="libre" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="B_LIBRE" />
+		<property name="codigoDia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_CODIGO_DIA" />
+	</class>
+	<class name="com.proyecto.citas.model.impl.HorarioTrabajoImpl" table="RES_HORARIO_TRABAJO">
+		<cache usage="read-write" />
+		<id name="idHorario" column="ID_HORARIO" type="int">
+			<generator class="assigned" />
+		</id>
+		<property name="horaInicio" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_HORA_INICIO" />
+		<property name="horaFin" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_HORA_FIN" />
+		<property name="horaInicioTarde" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_HORA_INICIO_TARDE" />
+		<property name="horaFinTarde" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_HORA_FIN_TARDE" />
+		<property name="duracionCitas" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="N_DURACION_CITAS" />
 	</class>
 </hibernate-mapping>

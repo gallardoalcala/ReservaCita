@@ -27,8 +27,78 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.proyecto.citas.model.impl.DiaFestivoModelImpl">
+		<attributes>
+			<id name="idFestivo">
+				<column name="ID_FESTIVO" />
+			</id>
+			<basic name="fechaFestivo">
+				<column name="F_FECHA_FFESTIVO" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.proyecto.citas.model.impl.DiaLibreModelImpl">
+		<attributes>
+			<id name="idLibre">
+				<column name="ID_LIBRE" />
+			</id>
+			<basic name="dia">
+				<column name="T_DIA" />
+			</basic>
+			<basic name="libre">
+				<column name="B_LIBRE" />
+			</basic>
+			<basic name="codigoDia">
+				<column name="T_CODIGO_DIA" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.proyecto.citas.model.impl.HorarioTrabajoModelImpl">
+		<attributes>
+			<id name="idHorario">
+				<column name="ID_HORARIO" />
+			</id>
+			<basic name="horaInicio">
+				<column name="T_HORA_INICIO" />
+			</basic>
+			<basic name="horaFin">
+				<column name="T_HORA_FIN" />
+			</basic>
+			<basic name="horaInicioTarde">
+				<column name="T_HORA_INICIO_TARDE" />
+			</basic>
+			<basic name="horaFinTarde">
+				<column name="T_HORA_FIN_TARDE" />
+			</basic>
+			<basic name="duracionCitas">
+				<column name="N_DURACION_CITAS" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="com.proyecto.citas.model.impl.CitaImpl" name="Cita">
 		<table name="RES_CITA" />
+		<attributes />
+	</entity>
+	<entity class="com.proyecto.citas.model.impl.DiaFestivoImpl" name="DiaFestivo">
+		<table name="RES_DIA_FESTIVO" />
+		<attributes />
+	</entity>
+	<entity class="com.proyecto.citas.model.impl.DiaLibreImpl" name="DiaLibre">
+		<table name="RES_DIA_LIBRE" />
+		<attributes />
+	</entity>
+	<entity class="com.proyecto.citas.model.impl.HorarioTrabajoImpl" name="HorarioTrabajo">
+		<table name="RES_HORARIO_TRABAJO" />
 		<attributes />
 	</entity>
 </entity-mappings>

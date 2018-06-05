@@ -17,4 +17,31 @@
             <finder-column name="idCita"></finder-column>
         </finder>
 	</entity>
+	
+	<entity name="DiaFestivo" local-service="true" remote-service="false" table="RES_DIA_FESTIVO">
+		<!-- PKs -->
+		<column name="idFestivo" type="int" primary="true" id-type="increment" db-name="ID_FESTIVO"/>
+		<!-- Other Columns -->
+		<column type="Date" db-name="F_FECHA_FFESTIVO" name="fechaFestivo"/>
+	</entity>
+	
+	<entity name="DiaLibre" local-service="true" remote-service="false" table="RES_DIA_LIBRE">
+		<!-- PKs -->
+		<column name="idLibre" type="int" primary="true" id-type="increment" db-name="ID_LIBRE"/>
+		<!-- Other Columns -->
+		<column name="dia" type="String" db-name="T_DIA"/>
+		<column type="int" db-name="B_LIBRE" name="libre"/>
+		<column name="codigoDia" type="String" db-name="T_CODIGO_DIA"/>
+	</entity>
+	
+	<entity name="HorarioTrabajo" local-service="true" remote-service="false" table="RES_HORARIO_TRABAJO">
+		<!-- PKs -->
+		<column name="idHorario" type="int" primary="true" db-name="ID_HORARIO"/>
+		<!-- Other Columns				 -->
+		<column type="String" db-name="T_HORA_INICIO" name="horaInicio"/>
+		<column type="String" db-name="T_HORA_FIN" name="horaFin"/>
+		<column type="String" db-name="T_HORA_INICIO_TARDE" name="horaInicioTarde"/>
+		<column type="String" db-name="T_HORA_FIN_TARDE" name="horaFinTarde"/>
+		<column type="int" db-name="N_DURACION_CITAS" name="duracionCitas"></column>
+	</entity>
 </service-builder>

@@ -3,7 +3,9 @@
 <%@page import="com.proyecto.citas.service.CitaLocalServiceUtil"%>
 <%@page import="com.proyecto.citas.model.Cita"%>
 <%@page import="com.liferay.portal.model.User" %>
+<%@page import="com.liferay.portal.service.RoleLocalServiceUtil" %>
 <%@page import="com.liferay.portal.service.UserLocalServiceUtil" %>
+<%@page import="com.liferay.portal.model.Role" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/html/init.jsp" %>
 
@@ -42,10 +44,29 @@
 			}	
 		}
 	}
+	ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(WebKeys.THEME_DISPLAY);
+	List<Role> userRoles=RoleLocalServiceUtil.getRoles(0, RoleLocalServiceUtil.getRolesCount());
+	long rolId = 0;
+	for(Role role : userRoles){
+		if(role.getName().equals("RolCliente")){
+			rolId = role.getRoleId();
+		}
+	}
+	long  roleIds [] = themeDisplay.getUser().getRoleIds();
+	boolean mostrar = true;
+	for(int i=0; i < roleIds.length; i++){
+		if(roleIds[i]==rolId){		
+			mostrar = false;
+		}
+	}
+	if(mostrar==false){
+		
+	}else{
 %>
 <portlet:renderURL var="back">
 	    	<portlet:param name="mvcPath" value="/html/view.jsp" />
 </portlet:renderURL>
+<portlet:actionURL var="deleteCitaURL" name="deleteCita"></portlet:actionURL>
 
 <aui:button type="cancel" value="Volver" href="<%=  back.toString() %>" />
 
@@ -65,23 +86,46 @@
 						if(c != null && c.getHora() == i){
 						%>	
 							<div class="row" style="border: 1px solid grey; background-color: lightgreen; margin: 0.5%;">
-						    	<div class="col-sm-2" style=" border-right: 1px solid grey; color: black;text-align: center; padding-bottom: 1%;padding-top: 1%;"><%=i%>:00</div>
-						    	<div class="col-sm-10" style="color: black;">
-									<p style="padding-top: 1%;"><%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getFirstName() %> <%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getLastName() %> - <%= c.getDescripcion() %></p>
+						    	<div class="col-sm-1" style=" border-right: 1px solid grey; color: black;text-align: center; padding-bottom: 1%;padding-top: 1%;"><%=i%>:00</div>
+						    	<div class="col-sm-8" style="color: black;">
+									<%
+										if(c.getDescripcion().length()>=40){
+									%>
+									<p style="padding-top: 7px;" title="<%= c.getDescripcion() %>"><%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getFirstName() %> <%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getLastName() %> - <%= c.getDescripcion().substring(0,40) %></p>
+						    		<%
+										}else{
+						    		%>
+						    		<p style="padding-top: 7px;"><%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getFirstName() %> <%= UserLocalServiceUtil.getUser(Long.parseLong(c.getIdCliente()+"")).getLastName() %> - <%= c.getDescripcion() %></p>
+						    		<%
+										}
+						    		%>						    		
+						    	</div>
+						    	<div class="iconos col-sm-3" style="padding-top: 7px;">
+						    		<form action='<%=deleteCitaURL%>' method='post' onsubmit="return confirm('¿Desea borrar ésta cita?');" style="margin: 0 !important; padding-left: 50%;">
+										<input type='hidden' name='citaId' value='<%= String.valueOf(c.getIdCita()) %>'></input>
+										<button type="submit" class="btn btn-danger icon-trash"></button>
+										<portlet:renderURL var="modificarCita">
+											<portlet:param name="mvcPath" value="/html/modificarCita.jsp" />
+											<portlet:param name="idCita" value="<%=String.valueOf(c.getIdCita())%>"/>
+											<portlet:param name="fecha" value="<%=fechaString%>"/>
+											<portlet:param name="hora" value="<%= String.valueOf(i) %>"/>									
+										</portlet:renderURL>
+										<aui:button type="button" cssClass="btn btn-primary icon-pencil" href="<%= modificarCita.toString() %>" style="background-color:#4e4ebd;"></aui:button>
+									</form>						    		
 						    	</div>
 						  	</div>
 						<%
 						}else{
 						%>	
-							<div class="row" style="border: 1px solid grey; background-color: lightgoldenrodyellow; margin: 0.5%;padding-bottom: 1%;padding-top: 1%;">
-						    	<div class="col-sm-2" style=" border-right: 1px solid grey; color: black; text-align: center; "><%=i%>:00</div>
-						    	<div class="col-sm-10" style="color: black;">
+							<div class="row" style="border: 1px solid grey; background-color: #fbf8f8; margin: 0.5%;padding-bottom: 1%;padding-top: 1%;">
+						    	<div class="col-sm-1" style=" border-right: 1px solid grey; color: black; text-align: center; "><%=i%>:00</div>
+						    	<div class="col-sm-11" style="color: black;">
 							    	<portlet:renderURL var="nuevaCita">
 										<portlet:param name="mvcPath" value="/html/nuevaCita.jsp" />
 										<portlet:param name="fecha" value="<%=fechaString%>"/>
 										<portlet:param name="hora" value="<%= String.valueOf(i) %>"/>									
 									</portlet:renderURL>
-									<aui:button type="cancel" value="Nueva Cita" href="<%=  nuevaCita.toString() %>" style="float: right;"/>
+									<aui:button type="cancel" value="Nueva Cita" href="<%= nuevaCita.toString() %>" style="float: right;"/>
 						    	</div>
 						  	</div>
 						<%	
@@ -89,9 +133,12 @@
 					}
 					if(i==14){
 					%>
-						<div style="background-color: grey; padding-bottom: 1%;"></div>
+						<div style="background-color: lightgrey; padding-bottom: 1%;"></div>
 					<%
 					}
 				}
 		  	%>
 </div>
+					<%
+					}
+		  	%>

@@ -20,6 +20,9 @@ import com.liferay.portal.service.persistence.UserPersistence;
 import com.proyecto.citas.model.Cita;
 import com.proyecto.citas.service.CitaLocalService;
 import com.proyecto.citas.service.persistence.CitaPersistence;
+import com.proyecto.citas.service.persistence.DiaFestivoPersistence;
+import com.proyecto.citas.service.persistence.DiaLibrePersistence;
+import com.proyecto.citas.service.persistence.HorarioTrabajoPersistence;
 
 import java.io.Serializable;
 
@@ -45,6 +48,18 @@ public abstract class CitaLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.proyecto.citas.service.CitaLocalService citaLocalService;
     @BeanReference(type = CitaPersistence.class)
     protected CitaPersistence citaPersistence;
+    @BeanReference(type = com.proyecto.citas.service.DiaFestivoLocalService.class)
+    protected com.proyecto.citas.service.DiaFestivoLocalService diaFestivoLocalService;
+    @BeanReference(type = DiaFestivoPersistence.class)
+    protected DiaFestivoPersistence diaFestivoPersistence;
+    @BeanReference(type = com.proyecto.citas.service.DiaLibreLocalService.class)
+    protected com.proyecto.citas.service.DiaLibreLocalService diaLibreLocalService;
+    @BeanReference(type = DiaLibrePersistence.class)
+    protected DiaLibrePersistence diaLibrePersistence;
+    @BeanReference(type = com.proyecto.citas.service.HorarioTrabajoLocalService.class)
+    protected com.proyecto.citas.service.HorarioTrabajoLocalService horarioTrabajoLocalService;
+    @BeanReference(type = HorarioTrabajoPersistence.class)
+    protected HorarioTrabajoPersistence horarioTrabajoPersistence;
     @BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
     protected com.liferay.counter.service.CounterLocalService counterLocalService;
     @BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)
@@ -309,6 +324,119 @@ public abstract class CitaLocalServiceBaseImpl extends BaseLocalServiceImpl
      */
     public void setCitaPersistence(CitaPersistence citaPersistence) {
         this.citaPersistence = citaPersistence;
+    }
+
+    /**
+     * Returns the dia festivo local service.
+     *
+     * @return the dia festivo local service
+     */
+    public com.proyecto.citas.service.DiaFestivoLocalService getDiaFestivoLocalService() {
+        return diaFestivoLocalService;
+    }
+
+    /**
+     * Sets the dia festivo local service.
+     *
+     * @param diaFestivoLocalService the dia festivo local service
+     */
+    public void setDiaFestivoLocalService(
+        com.proyecto.citas.service.DiaFestivoLocalService diaFestivoLocalService) {
+        this.diaFestivoLocalService = diaFestivoLocalService;
+    }
+
+    /**
+     * Returns the dia festivo persistence.
+     *
+     * @return the dia festivo persistence
+     */
+    public DiaFestivoPersistence getDiaFestivoPersistence() {
+        return diaFestivoPersistence;
+    }
+
+    /**
+     * Sets the dia festivo persistence.
+     *
+     * @param diaFestivoPersistence the dia festivo persistence
+     */
+    public void setDiaFestivoPersistence(
+        DiaFestivoPersistence diaFestivoPersistence) {
+        this.diaFestivoPersistence = diaFestivoPersistence;
+    }
+
+    /**
+     * Returns the dia libre local service.
+     *
+     * @return the dia libre local service
+     */
+    public com.proyecto.citas.service.DiaLibreLocalService getDiaLibreLocalService() {
+        return diaLibreLocalService;
+    }
+
+    /**
+     * Sets the dia libre local service.
+     *
+     * @param diaLibreLocalService the dia libre local service
+     */
+    public void setDiaLibreLocalService(
+        com.proyecto.citas.service.DiaLibreLocalService diaLibreLocalService) {
+        this.diaLibreLocalService = diaLibreLocalService;
+    }
+
+    /**
+     * Returns the dia libre persistence.
+     *
+     * @return the dia libre persistence
+     */
+    public DiaLibrePersistence getDiaLibrePersistence() {
+        return diaLibrePersistence;
+    }
+
+    /**
+     * Sets the dia libre persistence.
+     *
+     * @param diaLibrePersistence the dia libre persistence
+     */
+    public void setDiaLibrePersistence(DiaLibrePersistence diaLibrePersistence) {
+        this.diaLibrePersistence = diaLibrePersistence;
+    }
+
+    /**
+     * Returns the horario trabajo local service.
+     *
+     * @return the horario trabajo local service
+     */
+    public com.proyecto.citas.service.HorarioTrabajoLocalService getHorarioTrabajoLocalService() {
+        return horarioTrabajoLocalService;
+    }
+
+    /**
+     * Sets the horario trabajo local service.
+     *
+     * @param horarioTrabajoLocalService the horario trabajo local service
+     */
+    public void setHorarioTrabajoLocalService(
+        com.proyecto.citas.service.HorarioTrabajoLocalService horarioTrabajoLocalService) {
+        this.horarioTrabajoLocalService = horarioTrabajoLocalService;
+    }
+
+    /**
+     * Returns the horario trabajo persistence.
+     *
+     * @return the horario trabajo persistence
+     */
+    public HorarioTrabajoPersistence getHorarioTrabajoPersistence() {
+        return horarioTrabajoPersistence;
+    }
+
+    /**
+     * Sets the horario trabajo persistence.
+     *
+     * @param horarioTrabajoPersistence the horario trabajo persistence
+     */
+    public void setHorarioTrabajoPersistence(
+        HorarioTrabajoPersistence horarioTrabajoPersistence) {
+        this.horarioTrabajoPersistence = horarioTrabajoPersistence;
     }
 
     /**

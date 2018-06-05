@@ -3,4 +3,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="com.proyecto.citas.service.CitaLocalService" class="com.proyecto.citas.service.impl.CitaLocalServiceImpl" />
 	<bean id="com.proyecto.citas.service.persistence.CitaPersistence" class="com.proyecto.citas.service.persistence.CitaPersistenceImpl" parent="basePersistence" />
+	<bean id="com.proyecto.citas.service.DiaFestivoLocalService" class="com.proyecto.citas.service.impl.DiaFestivoLocalServiceImpl" />
+	<bean id="com.proyecto.citas.service.persistence.DiaFestivoPersistence" class="com.proyecto.citas.service.persistence.DiaFestivoPersistenceImpl" parent="basePersistence" />
+	<bean id="com.proyecto.citas.service.DiaLibreLocalService" class="com.proyecto.citas.service.impl.DiaLibreLocalServiceImpl" />
+	<bean id="com.proyecto.citas.service.persistence.DiaLibrePersistence" class="com.proyecto.citas.service.persistence.DiaLibrePersistenceImpl" parent="basePersistence" />
+	<bean id="com.proyecto.citas.service.HorarioTrabajoLocalService" class="com.proyecto.citas.service.impl.HorarioTrabajoLocalServiceImpl" />
+	<bean id="com.proyecto.citas.service.persistence.HorarioTrabajoPersistence" class="com.proyecto.citas.service.persistence.HorarioTrabajoPersistenceImpl" parent="basePersistence" />
 </beans>

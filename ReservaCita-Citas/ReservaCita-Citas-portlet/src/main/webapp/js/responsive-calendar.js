@@ -355,7 +355,7 @@
       translateMonths: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
       events: {},
       time: void 0,
-      allRows: true,
+      allRows: false,
       startFromSunday: false,
       activateNonCurrentMonths: false,
       monthChangeAnimation: true,

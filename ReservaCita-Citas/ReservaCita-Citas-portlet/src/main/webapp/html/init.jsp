@@ -46,6 +46,21 @@
 <%@page import="com.liferay.portal.kernel.repository.model.FileEntry"%>
 <%@page import="com.liferay.portal.kernel.dao.orm.QueryUtil" %>
 
+<%@page import="com.proyecto.citas.service.CitaLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.Cita"%>
+<%@page import="com.liferay.portal.model.User" %>
+<%@page import="com.liferay.portal.service.UserLocalServiceUtil" %>
+<%@page import="com.liferay.portal.util.PortalUtil"%>
+
+<%@page import="com.proyecto.citas.service.DiaLibreLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiaLibre"%>
+<%@page import="com.proyecto.citas.service.DiasLibresLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiasLibres"%>
+<%@page import="com.proyecto.citas.service.HorarioTrabajoLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.HorarioTrabajo"%>
+<%@page import="com.proyecto.citas.service.DiaFestivoLocalServiceUtil"%>
+<%@page import="com.proyecto.citas.model.DiaFestivo"%>
+
 <!-- CSS files -->
 <link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet" />
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet" />

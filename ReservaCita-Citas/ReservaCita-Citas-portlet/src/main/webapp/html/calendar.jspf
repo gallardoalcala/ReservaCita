@@ -7,16 +7,14 @@
 <script src="<%=request.getContextPath()%>/js/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/responsive-calendar.js"></script>
-<portlet:defineObjects />
-<liferay-theme:defineObjects />
 
 <style>	
-
 .container{
-    width: 30% !important;
-    display: inline-flex;
+    width: 50% !important;
+    border: 1px solid lightgray;
+    padding: 1%;
+    box-shadow: 2px 2px 7px 0px grey;
 }
-
 </style>
 <%
 	//Recogemos la fecha actual
@@ -28,9 +26,13 @@
 	SimpleDateFormat yyT = new SimpleDateFormat("yyyy");
 	String yearT = yyT.format(fechaActual);
 	String fechaHoy = yearT+"-"+monthT+"-"+dayT;
-
-
 %>
+
+<portlet:renderURL var="configAgenda">
+	<portlet:param name="mvcPath" value="/html/configAgenda.jsp" />
+</portlet:renderURL>
+
+<aui:button type="button" value="Configuración de la Agenda" href="<%= configAgenda.toString() %>"></aui:button>
 
 <portlet:actionURL var="verDiaAgendaURL" windowState="normal" name="verDiaAgenda">
 </portlet:actionURL>

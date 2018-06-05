@@ -5,6 +5,9 @@ import com.liferay.portal.kernel.messaging.Message;
 
 import com.proyecto.citas.service.CitaLocalServiceUtil;
 import com.proyecto.citas.service.ClpSerializer;
+import com.proyecto.citas.service.DiaFestivoLocalServiceUtil;
+import com.proyecto.citas.service.DiaLibreLocalServiceUtil;
+import com.proyecto.citas.service.HorarioTrabajoLocalServiceUtil;
 
 
 public class ClpMessageListener extends BaseMessageListener {
@@ -20,6 +23,12 @@ public class ClpMessageListener extends BaseMessageListener {
         if (command.equals("undeploy") &&
                 servletContextName.equals(getServletContextName())) {
             CitaLocalServiceUtil.clearService();
+
+            DiaFestivoLocalServiceUtil.clearService();
+
+            DiaLibreLocalServiceUtil.clearService();
+
+            HorarioTrabajoLocalServiceUtil.clearService();
         }
     }
 }

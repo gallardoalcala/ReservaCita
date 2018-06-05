@@ -12,6 +12,9 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.BaseModel;
 
 import com.proyecto.citas.model.CitaClp;
+import com.proyecto.citas.model.DiaFestivoClp;
+import com.proyecto.citas.model.DiaLibreClp;
+import com.proyecto.citas.model.HorarioTrabajoClp;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -92,6 +95,18 @@ public class ClpSerializer {
             return translateInputCita(oldModel);
         }
 
+        if (oldModelClassName.equals(DiaFestivoClp.class.getName())) {
+            return translateInputDiaFestivo(oldModel);
+        }
+
+        if (oldModelClassName.equals(DiaLibreClp.class.getName())) {
+            return translateInputDiaLibre(oldModel);
+        }
+
+        if (oldModelClassName.equals(HorarioTrabajoClp.class.getName())) {
+            return translateInputHorarioTrabajo(oldModel);
+        }
+
         return oldModel;
     }
 
@@ -117,6 +132,36 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputDiaFestivo(BaseModel<?> oldModel) {
+        DiaFestivoClp oldClpModel = (DiaFestivoClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getDiaFestivoRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputDiaLibre(BaseModel<?> oldModel) {
+        DiaLibreClp oldClpModel = (DiaLibreClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getDiaLibreRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputHorarioTrabajo(BaseModel<?> oldModel) {
+        HorarioTrabajoClp oldClpModel = (HorarioTrabajoClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getHorarioTrabajoRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInput(Object obj) {
         if (obj instanceof BaseModel<?>) {
             return translateInput((BaseModel<?>) obj);
@@ -134,6 +179,111 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals("com.proyecto.citas.model.impl.CitaImpl")) {
             return translateOutputCita(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
+                    "com.proyecto.citas.model.impl.DiaFestivoImpl")) {
+            return translateOutputDiaFestivo(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
+                    "com.proyecto.citas.model.impl.DiaLibreImpl")) {
+            return translateOutputDiaLibre(oldModel);
+        } else if (oldModelClassName.endsWith("Clp")) {
+            try {
+                ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+                Method getClpSerializerClassMethod = oldModelClass.getMethod(
+                        "getClpSerializerClass");
+
+                Class<?> oldClpSerializerClass = (Class<?>) getClpSerializerClassMethod.invoke(oldModel);
+
+                Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+                Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+                        BaseModel.class);
+
+                Class<?> oldModelModelClass = oldModel.getModelClass();
+
+                Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+                        oldModelModelClass.getSimpleName() + "RemoteModel");
+
+                Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+                BaseModel<?> newModel = (BaseModel<?>) translateOutputMethod.invoke(null,
+                        oldRemoteModel);
+
+                return newModel;
+            } catch (Throwable t) {
+                if (_log.isInfoEnabled()) {
+                    _log.info("Unable to translate " + oldModelClassName, t);
+                }
+            }
+        }
+
+        if (oldModelClassName.equals(
+                    "com.proyecto.citas.model.impl.HorarioTrabajoImpl")) {
+            return translateOutputHorarioTrabajo(oldModel);
         } else if (oldModelClassName.endsWith("Clp")) {
             try {
                 ClassLoader classLoader = ClpSerializer.class.getClassLoader();
@@ -246,6 +396,18 @@ public class ClpSerializer {
             return new com.proyecto.citas.NoSuchCitaException();
         }
 
+        if (className.equals("com.proyecto.citas.NoSuchDiaFestivoException")) {
+            return new com.proyecto.citas.NoSuchDiaFestivoException();
+        }
+
+        if (className.equals("com.proyecto.citas.NoSuchDiaLibreException")) {
+            return new com.proyecto.citas.NoSuchDiaLibreException();
+        }
+
+        if (className.equals("com.proyecto.citas.NoSuchHorarioTrabajoException")) {
+            return new com.proyecto.citas.NoSuchHorarioTrabajoException();
+        }
+
         return throwable;
     }
 
@@ -255,6 +417,36 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setCitaRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputDiaFestivo(BaseModel<?> oldModel) {
+        DiaFestivoClp newModel = new DiaFestivoClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setDiaFestivoRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputDiaLibre(BaseModel<?> oldModel) {
+        DiaLibreClp newModel = new DiaLibreClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setDiaLibreRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputHorarioTrabajo(BaseModel<?> oldModel) {
+        HorarioTrabajoClp newModel = new HorarioTrabajoClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setHorarioTrabajoRemoteModel(oldModel);
 
         return newModel;
     }
