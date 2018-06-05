@@ -3,6 +3,7 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="com.proyecto.clientes.model.Cita" />
+	<import class="com.proyecto.clientes.model.Cliente" />
 	<class name="com.proyecto.clientes.model.impl.CitaImpl" table="RES_CITA">
 		<cache usage="read-write" />
 		<id name="idCita" column="ID_CITA" type="int">
@@ -11,5 +12,13 @@
 		<property name="idCliente" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="ID_CLIENTE" />
 		<property name="fechaCita" type="org.hibernate.type.TimestampType" column="F_FECHA" />
 		<property name="descripcion" type="com.liferay.portal.dao.orm.hibernate.StringType" column="T_DESCRIPCION" />
+	</class>
+	<class name="com.proyecto.clientes.model.impl.ClienteImpl" table="RES_CLIENTE">
+		<cache usage="read-write" />
+		<id name="idCliente" column="ID_CLIENTE" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="activado" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="B_ACTIVADO" />
+		<property name="denegado" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="B_DENEGADO" />
 	</class>
 </hibernate-mapping>

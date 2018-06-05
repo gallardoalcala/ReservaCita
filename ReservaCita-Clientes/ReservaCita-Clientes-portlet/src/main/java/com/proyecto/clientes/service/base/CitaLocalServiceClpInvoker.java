@@ -41,10 +41,12 @@ public class CitaLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName32;
-    private String[] _methodParameterTypes32;
-    private String _methodName33;
-    private String[] _methodParameterTypes33;
+    private String _methodName36;
+    private String[] _methodParameterTypes36;
+    private String _methodName37;
+    private String[] _methodParameterTypes37;
+    private String _methodName42;
+    private String[] _methodParameterTypes42;
 
     public CitaLocalServiceClpInvoker() {
         _methodName0 = "addCita";
@@ -125,13 +127,17 @@ public class CitaLocalServiceClpInvoker {
                 "com.proyecto.clientes.model.Cita"
             };
 
-        _methodName32 = "getBeanIdentifier";
+        _methodName36 = "getBeanIdentifier";
 
-        _methodParameterTypes32 = new String[] {  };
+        _methodParameterTypes36 = new String[] {  };
 
-        _methodName33 = "setBeanIdentifier";
+        _methodName37 = "setBeanIdentifier";
 
-        _methodParameterTypes33 = new String[] { "java.lang.String" };
+        _methodParameterTypes37 = new String[] { "java.lang.String" };
+
+        _methodName42 = "findByIdCliente";
+
+        _methodParameterTypes42 = new String[] { "int" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -223,16 +229,21 @@ public class CitaLocalServiceClpInvoker {
             return CitaLocalServiceUtil.updateCita((com.proyecto.clientes.model.Cita) arguments[0]);
         }
 
-        if (_methodName32.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes32, parameterTypes)) {
+        if (_methodName36.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes36, parameterTypes)) {
             return CitaLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName33.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes33, parameterTypes)) {
+        if (_methodName37.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes37, parameterTypes)) {
             CitaLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
+        }
+
+        if (_methodName42.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
+            return CitaLocalServiceUtil.findByIdCliente(((Integer) arguments[0]).intValue());
         }
 
         throw new UnsupportedOperationException();

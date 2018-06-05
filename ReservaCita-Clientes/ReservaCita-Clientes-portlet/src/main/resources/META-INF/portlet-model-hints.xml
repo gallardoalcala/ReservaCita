@@ -7,4 +7,9 @@
 		<field name="fechaCita" type="Date" />
 		<field name="descripcion" type="String" />
 	</model>
+	<model name="com.proyecto.clientes.model.Cliente">
+		<field name="idCliente" type="long" />
+		<field name="activado" type="int" />
+		<field name="denegado" type="int" />
+	</model>
 </model-hints>

@@ -20,6 +20,7 @@ import com.liferay.portal.service.persistence.UserPersistence;
 import com.proyecto.clientes.model.Cita;
 import com.proyecto.clientes.service.CitaLocalService;
 import com.proyecto.clientes.service.persistence.CitaPersistence;
+import com.proyecto.clientes.service.persistence.ClientePersistence;
 
 import java.io.Serializable;
 
@@ -45,6 +46,10 @@ public abstract class CitaLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected com.proyecto.clientes.service.CitaLocalService citaLocalService;
     @BeanReference(type = CitaPersistence.class)
     protected CitaPersistence citaPersistence;
+    @BeanReference(type = com.proyecto.clientes.service.ClienteLocalService.class)
+    protected com.proyecto.clientes.service.ClienteLocalService clienteLocalService;
+    @BeanReference(type = ClientePersistence.class)
+    protected ClientePersistence clientePersistence;
     @BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
     protected com.liferay.counter.service.CounterLocalService counterLocalService;
     @BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)
@@ -309,6 +314,43 @@ public abstract class CitaLocalServiceBaseImpl extends BaseLocalServiceImpl
      */
     public void setCitaPersistence(CitaPersistence citaPersistence) {
         this.citaPersistence = citaPersistence;
+    }
+
+    /**
+     * Returns the cliente local service.
+     *
+     * @return the cliente local service
+     */
+    public com.proyecto.clientes.service.ClienteLocalService getClienteLocalService() {
+        return clienteLocalService;
+    }
+
+    /**
+     * Sets the cliente local service.
+     *
+     * @param clienteLocalService the cliente local service
+     */
+    public void setClienteLocalService(
+        com.proyecto.clientes.service.ClienteLocalService clienteLocalService) {
+        this.clienteLocalService = clienteLocalService;
+    }
+
+    /**
+     * Returns the cliente persistence.
+     *
+     * @return the cliente persistence
+     */
+    public ClientePersistence getClientePersistence() {
+        return clientePersistence;
+    }
+
+    /**
+     * Sets the cliente persistence.
+     *
+     * @param clientePersistence the cliente persistence
+     */
+    public void setClientePersistence(ClientePersistence clientePersistence) {
+        this.clientePersistence = clientePersistence;
     }
 
     /**

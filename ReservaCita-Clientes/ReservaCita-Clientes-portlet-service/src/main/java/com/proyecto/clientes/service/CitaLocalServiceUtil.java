@@ -259,6 +259,12 @@ public class CitaLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static java.util.List<com.proyecto.clientes.model.Cita> findByIdCliente(
+        int idCliente)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByIdCliente(idCliente);
+    }
+
     public static void clearService() {
         _service = null;
     }

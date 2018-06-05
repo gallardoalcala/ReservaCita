@@ -2,12 +2,10 @@
 
 <service-builder package-path="com.proyecto.clientes">
 	<namespace>reservacitaclientes</namespace>
+	
 	<entity name="Cita" local-service="true" remote-service="false" table="RES_CITA">
-
 		<!-- PKs -->
-
 		<column name="idCita" type="int" primary="true" id-type="increment" db-name="ID_CITA"/>
-
 		<!-- Other Columns -->
 		<column type="int" db-name="ID_CLIENTE" name="idCliente"/>
 		<column type="Date" db-name="F_FECHA" name="fechaCita"/>
@@ -17,4 +15,23 @@
             <finder-column name="idCliente"></finder-column>
         </finder>
 	</entity>
+	
+	<entity name="Cliente" local-service="true" remote-service="false" table="RES_CLIENTE">
+		<!-- PKs -->
+		<column name="idCliente" type="long" primary="true" db-name="ID_CLIENTE"/>
+		<!-- Other Columns -->
+		<column type="int" db-name="B_ACTIVADO" name="activado"/>
+		<column type="int" db-name="B_DENEGADO" name="denegado"/>
+		<!-- Finders -->
+		<finder name="idCliente" return-type="Collection">
+            <finder-column name="idCliente"></finder-column>
+        </finder>
+        <finder name="activado" return-type="Collection">
+            <finder-column name="activado"></finder-column>
+        </finder>
+        <finder name="denegado" return-type="Collection">
+            <finder-column name="denegado"></finder-column>
+        </finder>
+	</entity>
+	
 </service-builder>

@@ -3,4 +3,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="com.proyecto.clientes.service.CitaLocalService" class="com.proyecto.clientes.service.impl.CitaLocalServiceImpl" />
 	<bean id="com.proyecto.clientes.service.persistence.CitaPersistence" class="com.proyecto.clientes.service.persistence.CitaPersistenceImpl" parent="basePersistence" />
+	<bean id="com.proyecto.clientes.service.ClienteLocalService" class="com.proyecto.clientes.service.impl.ClienteLocalServiceImpl" />
+	<bean id="com.proyecto.clientes.service.persistence.ClientePersistence" class="com.proyecto.clientes.service.persistence.ClientePersistenceImpl" parent="basePersistence" />
 </beans>

@@ -4,3 +4,9 @@ create table RES_CITA (
 	F_FECHA DATE null,
 	T_DESCRIPCION VARCHAR(75) null
 );
+
+create table RES_CLIENTE (
+	ID_CLIENTE LONG not null primary key,
+	B_ACTIVADO INTEGER,
+	B_DENEGADO INTEGER
+);
